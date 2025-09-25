@@ -1,15 +1,17 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+import { Bricolage_Grotesque, DM_Sans } from 'next/font/google';
+import { Header } from './components/Header/Header';
+
+const dmSans = DM_Sans({
   subsets: ['latin'],
+  variable: '--font-dm',
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const bricolage = Bricolage_Grotesque({
   subsets: ['latin'],
+  variable: '--font-bricolage',
 });
 
 export const metadata: Metadata = {
@@ -23,8 +25,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+    <html lang="en">
+      <body
+        className={`antialiased ${dmSans.variable} ${bricolage.variable} pt-200 pb-600 px-200 md:pt-300 md:pb-1000 md:px-300 lg:pt-600 lg:pb-1000 lg:px-1400`}
+      >
+        <Header />
+        <div>{children}</div>
+      </body>
     </html>
   );
 }
