@@ -1,30 +1,20 @@
+'use client';
+import { DAYS_OF_THE_WEEK, NEXT_DAYS, TODAY_WEEK_DAY } from '@/app/constants/constants';
 import { useState } from 'react';
 import { DropDown } from '../DropDown/DropDown';
 
-export interface DaysDropDownProps {}
+export interface DaysDropDownProps {
+  selectedDay: string;
+  setSelectedDay: any;
+}
 
-export const DaysDropDown = ({}: DaysDropDownProps) => {
+export const DaysDropDown = ({ selectedDay, setSelectedDay }: DaysDropDownProps) => {
   const today = new Date();
   const [showDropdown, setShowDropdown] = useState(false);
-  const [selectedDay, setSelectedDay] = useState<string>(today.toISOString().slice(0, 10));
-
-  const daysOfTheWeek = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
-  ];
-
-  const todayName = today.toLocaleDateString('en-US', { weekday: 'long' });
-  const startIndex = daysOfTheWeek.indexOf(todayName);
-  const nextDays = daysOfTheWeek.slice(startIndex).concat(daysOfTheWeek.slice(0, startIndex));
 
   const handleSelectDay = (day: string) => {
-    const todayIndex = daysOfTheWeek.indexOf(todayName);
-    const selectedIndex = daysOfTheWeek.indexOf(day);
+    const todayIndex = DAYS_OF_THE_WEEK.indexOf(TODAY_WEEK_DAY);
+    const selectedIndex = DAYS_OF_THE_WEEK.indexOf(day);
 
     // calculate offset (days from today)
     let offset = selectedIndex - todayIndex;
@@ -47,7 +37,7 @@ export const DaysDropDown = ({}: DaysDropDownProps) => {
       {showDropdown && (
         <div className="dropdown-content w-[214px]">
           <ul>
-            {nextDays.map((day) => (
+            {NEXT_DAYS.map((day) => (
               <li
                 key={day}
                 className="hover:bg-neutral-700 border-neutral-600 px-100 py-125 cursor-pointer rounded-8"
