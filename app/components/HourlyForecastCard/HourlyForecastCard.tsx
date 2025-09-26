@@ -1,0 +1,55 @@
+import { getWeatherIconPath } from '@/app/helpers/weather';
+
+export interface HourlyForecastCardProps {
+  /* The hour of the day to display */
+  timeOfDay: string;
+  /* Weather condition code based on a standard weather API */
+  weatherCode:
+    | 0
+    | 1
+    | 2
+    | 3
+    | 45
+    | 48
+    | 51
+    | 53
+    | 55
+    | 56
+    | 57
+    | 61
+    | 63
+    | 65
+    | 66
+    | 67
+    | 71
+    | 73
+    | 75
+    | 77
+    | 80
+    | 81
+    | 82
+    | 85
+    | 86
+    | 95
+    | 96
+    | 99;
+  /* The temperature expected for this hour of the day */
+  temp: number;
+}
+
+export const HourlyForecastCard = ({ timeOfDay, weatherCode, temp }: HourlyForecastCardProps) => {
+  const weatherIconPath = getWeatherIconPath(weatherCode);
+  const hour24 = new Date(timeOfDay).getHours();
+
+  const isPM = hour24 >= 12;
+  const hour12 = hour24 % 12 || 12;
+  const hourValue = `${hour12} ${isPM ? 'PM' : 'AM'}`;
+
+  return (
+    <div className="bg-neutral-700 border border-neutral-600 box-border grid grid-cols-[max-content_auto_max-content] w-full pl-150 pr-200 py-125 items-center gap-100 rounded-8">
+      <img src={weatherIconPath} alt="Weather icon" width="40" height="40" />
+      <div className="preset-5">{hourValue}</div>
+      <div className="preset-7">{temp}°</div>
+    </div>
+  );
+};
