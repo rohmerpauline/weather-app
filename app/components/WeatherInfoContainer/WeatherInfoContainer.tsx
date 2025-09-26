@@ -10,7 +10,6 @@ export interface WeatherInfoContainerProps {}
 
 export interface CurrentWeather {
   temperature: null | number;
-  weatherCode: null | number;
   feelsLike: null | number;
   windSpeed: null | number;
   precipitation: null | number;
@@ -21,7 +20,6 @@ export interface CurrentWeather {
 export const WeatherInfoContainer = ({}: WeatherInfoContainerProps) => {
   const [currentWeather, setCurrentWeather] = useState<CurrentWeather>({
     temperature: null,
-    weatherCode: null,
     feelsLike: null,
     windSpeed: null,
     precipitation: null,
@@ -41,7 +39,6 @@ export const WeatherInfoContainer = ({}: WeatherInfoContainerProps) => {
     if (roundedNowIndex >= 0) {
       setCurrentWeather({
         temperature: weatherData.hourly.temperature_2m[roundedNowIndex],
-        weatherCode: weatherData.hourly.weathercode[roundedNowIndex],
         feelsLike: weatherData.hourly.apparent_temperature[roundedNowIndex],
         windSpeed: weatherData.hourly.windspeed_10m[roundedNowIndex],
         precipitation: weatherData.hourly.precipitation[roundedNowIndex],

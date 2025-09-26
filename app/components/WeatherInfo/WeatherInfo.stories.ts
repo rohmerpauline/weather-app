@@ -7,8 +7,10 @@ const meta = {
   component: WeatherInfo,
   parameters: {
     layout: 'fullscreen',
-    description: {
-      component: 'Styled banner summarizing the the daily forecast for the selected city.',
+    docs: {
+      description: {
+        component: 'Styled banner summarizing the the daily forecast for the selected city.',
+      },
     },
   },
   tags: ['autodocs'],
@@ -18,4 +20,15 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: {
+    currentWeather: {
+      temperature: 15,
+      feelsLike: 12,
+      windSpeed: 23,
+      precipitation: 10,
+      humidity: 12,
+      iconPath: '/images/icon-sunny.webp',
+    },
+  },
+};

@@ -23,6 +23,8 @@ export const UnitsDropDown = ({}: UnitsDropDownProps) => {
     if (filters.city) {
       fetchWeatherData({ ...filters, [key]: value });
     }
+
+    setShowDropdown(false);
   };
 
   return (

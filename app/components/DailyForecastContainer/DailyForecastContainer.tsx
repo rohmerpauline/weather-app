@@ -2,6 +2,7 @@
 import { useWeather } from '@/app/context/WeatherContext';
 import { mostFrequent } from '@/app/utils/entity-utils';
 import React, { useEffect, useState } from 'react';
+import { WeatherCode } from '../HourlyForecastContainer/HourlyForecastContainer';
 import { WeatherCard } from '../WeatherCard/WeatherCard';
 
 export interface DailyForecastContainerProps {}
@@ -9,14 +10,14 @@ export interface DailyForecastContainerProps {}
 interface DailyWeatherData {
   date: string; // YYYY-MM-DD
   temperatures: number[];
-  weatherCodes: number[];
+  weatherCodes: WeatherCode[];
 }
 
 interface DailyForecastSummary {
   day: string; // short weekday, e.g., "Mon"
   minTemp: number;
   maxTemp: number;
-  weatherCode: number;
+  weatherCode: WeatherCode;
 }
 
 const aggregateForecastHourlyByDay = (hourly: {
@@ -34,7 +35,7 @@ const aggregateForecastHourlyByDay = (hourly: {
     }
 
     dailyMap[date].temperatures.push(hourly.temperature_2m[idx]);
-    dailyMap[date].weatherCodes.push(hourly.weathercode[idx]);
+    dailyMap[date].weatherCodes.push(hourly.weathercode[idx] as WeatherCode);
   });
 
   return Object.values(dailyMap).sort((a, b) => (a.date < b.date ? -1 : 1));
@@ -42,7 +43,7 @@ const aggregateForecastHourlyByDay = (hourly: {
 
 export const DailyForecastContainer = ({}: DailyForecastContainerProps) => {
   const [dailyForecast, setDailyForecast] = useState<DailyForecastSummary[] | null>(null);
-  const { weatherData } = useWeather();
+  const { weatherData, isLoading } = useWeather();
 
   useEffect(() => {
     if (!weatherData) return;
@@ -52,18 +53,24 @@ export const DailyForecastContainer = ({}: DailyForecastContainerProps) => {
       day: new Date(el.date).toLocaleDateString('en-US', { weekday: 'short' }),
       minTemp: Math.min(...el.temperatures),
       maxTemp: Math.max(...el.temperatures),
-      weatherCode: mostFrequent(el.weatherCodes),
+      weatherCode: mostFrequent(el.weatherCodes) as WeatherCode,
     }));
 
     setDailyForecast(newDailyMap);
   }, [weatherData]);
 
+  // Fallback placeholder data (7 empty cards)
+  const displayData =
+    isLoading || !dailyForecast
+      ? Array.from({ length: 7 }, () => ({}) as DailyForecastSummary)
+      : dailyForecast;
+
   return (
     <div>
       <h3 className="preset-5 mb-250">Daily Forecast</h3>
       <div className="grid grid-cols-3  md:grid-cols-[repeat(auto-fit,minmax(0,1fr))] gap-200">
-        {dailyForecast?.map((forecast: any) => (
-          <React.Fragment key={forecast.day}>
+        {displayData.map((forecast, index) => (
+          <React.Fragment key={forecast.day ?? index}>
             <WeatherCard
               day={forecast.day}
               weatherCode={forecast.weatherCode}

@@ -38,3 +38,11 @@ export const DropDownNoIcon: Story = {
     height: 'small',
   },
 };
+
+export const LoadingState: Story = {
+  args: {
+    label: '-',
+    onClick: () => {},
+    height: 'small',
+  },
+};
