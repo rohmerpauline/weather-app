@@ -1,39 +1,12 @@
 import { getWeatherIconPath } from '@/app/helpers/weather';
 import { BaseWrapper } from '../BaseWrapper/BaseWrapper';
+import { WeatherCode } from '../HourlyForecastContainer/HourlyForecastContainer';
 
 export interface WeatherCardProps {
   /* The day of the week or date to display */
   day: string;
   /* Weather condition code based on a standard weather API */
-  weatherCode:
-    | 0
-    | 1
-    | 2
-    | 3
-    | 45
-    | 48
-    | 51
-    | 53
-    | 55
-    | 56
-    | 57
-    | 61
-    | 63
-    | 65
-    | 66
-    | 67
-    | 71
-    | 73
-    | 75
-    | 77
-    | 80
-    | 81
-    | 82
-    | 85
-    | 86
-    | 95
-    | 96
-    | 99;
+  weatherCode: WeatherCode;
   /** Minimum temperature for the day */
   minTemp: number;
   /** Maximum temperature for the day */

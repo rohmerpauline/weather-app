@@ -1,38 +1,11 @@
 import { getWeatherIconPath } from '@/app/helpers/weather';
+import { WeatherCode } from '../HourlyForecastContainer/HourlyForecastContainer';
 
 export interface HourlyForecastCardProps {
   /* The hour of the day to display */
   timeOfDay: string;
   /* Weather condition code based on a standard weather API */
-  weatherCode:
-    | 0
-    | 1
-    | 2
-    | 3
-    | 45
-    | 48
-    | 51
-    | 53
-    | 55
-    | 56
-    | 57
-    | 61
-    | 63
-    | 65
-    | 66
-    | 67
-    | 71
-    | 73
-    | 75
-    | 77
-    | 80
-    | 81
-    | 82
-    | 85
-    | 86
-    | 95
-    | 96
-    | 99;
+  weatherCode: WeatherCode;
   /* The temperature expected for this hour of the day */
   temp: number;
 }

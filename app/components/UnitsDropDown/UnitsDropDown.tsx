@@ -1,33 +1,29 @@
+'use client';
+import {
+  PRECIPITATION_OPTIONS,
+  TEMPERATURE_OPTIONS,
+  WIND_SPEED_OPTIONS,
+} from '@/app/constants/constants';
+import { useFilters } from '@/app/context/FilterContext';
+import { useWeather } from '@/app/context/WeatherContext';
 import { useState } from 'react';
 import { DropDown } from '../DropDown/DropDown';
 import { UnitsDropDownElement } from '../UnitsDropDownElement/UnitsDropDownElement';
 
 export interface UnitsDropDownProps {}
 
-const TEMPERATURE_OPTIONS = [
-  { label: 'Celsius (°C)', value: 'celsius' },
-  { label: 'Fahrenheit (°F)', value: 'fahrenheit' },
-];
-
-const WIND_SPEED_OPTIONS = [
-  { label: 'km/h', value: 'kmh' },
-  { label: 'mph', value: 'mph' },
-];
-
-const PRECIPITATION_OPTIONS = [
-  { label: 'Millimeters (mm)', value: 'mm' },
-  { label: 'Inches (in)', value: 'in' },
-];
-
 export const UnitsDropDown = ({}: UnitsDropDownProps) => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [selectedTemperatureUnit, setSelectedTemperatureUnit] = useState(
-    TEMPERATURE_OPTIONS[0].value,
-  );
-  const [selectedWindSpeedUnit, setSelectedWindSpeedUnit] = useState(WIND_SPEED_OPTIONS[0].value);
-  const [selectedPrecipitationUnit, setSelectedPrecipitationUnit] = useState(
-    PRECIPITATION_OPTIONS[0].value,
-  );
+  const { filters, updateFilters } = useFilters();
+  const { fetchWeatherData } = useWeather();
+
+  const handleUnitChange = (key: keyof typeof filters, value: string) => {
+    updateFilters(key, value);
+
+    if (filters.city) {
+      fetchWeatherData({ ...filters, [key]: value });
+    }
+  };
 
   return (
     <div className="relative inline-block">
@@ -44,22 +40,22 @@ export const UnitsDropDown = ({}: UnitsDropDownProps) => {
             <UnitsDropDownElement
               title="Temperature"
               options={TEMPERATURE_OPTIONS}
-              selectedValue={selectedTemperatureUnit}
-              onSelect={setSelectedTemperatureUnit}
+              selectedValue={filters.temperatureUnit}
+              onSelect={(value) => handleUnitChange('temperatureUnit', value)}
             />
             <hr className="border-t border-neutral-600" />
             <UnitsDropDownElement
               title="Wind Speed"
               options={WIND_SPEED_OPTIONS}
-              selectedValue={selectedWindSpeedUnit}
-              onSelect={setSelectedWindSpeedUnit}
+              selectedValue={filters.windSpeedUnit}
+              onSelect={(value) => handleUnitChange('windSpeedUnit', value)}
             />
             <hr className="border-t border-neutral-600" />
             <UnitsDropDownElement
               title="Precipitation"
               options={PRECIPITATION_OPTIONS}
-              selectedValue={selectedPrecipitationUnit}
-              onSelect={setSelectedPrecipitationUnit}
+              selectedValue={filters.precipitationUnit}
+              onSelect={(value) => handleUnitChange('precipitationUnit', value)}
             />
           </div>
         </div>

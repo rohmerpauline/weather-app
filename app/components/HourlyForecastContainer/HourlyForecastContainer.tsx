@@ -1,39 +1,82 @@
+'use client';
+import { useWeather } from '@/app/context/WeatherContext';
+import { getRoundedHourDate } from '@/app/utils/getRoundedHourDate';
+import { useEffect, useState } from 'react';
 import { BaseWrapper } from '../BaseWrapper/BaseWrapper';
 import { DaysDropDown } from '../DaysDropDown/DaysDropDown';
 import { HourlyForecastCard } from '../HourlyForecastCard/HourlyForecastCard';
 
 export interface HourlyForecastContainerProps {}
 
+export type WeatherCode =
+  | 0
+  | 1
+  | 2
+  | 3
+  | 45
+  | 48
+  | 51
+  | 53
+  | 55
+  | 56
+  | 57
+  | 61
+  | 63
+  | 65
+  | 66
+  | 67
+  | 71
+  | 73
+  | 75
+  | 77
+  | 80
+  | 81
+  | 82
+  | 85
+  | 86
+  | 95
+  | 96
+  | 99;
+
 export const HourlyForecastContainer = ({}: HourlyForecastContainerProps) => {
+  const [dayHourlyData, setDayHourlyData] = useState<
+    { time: string; temperature: number; weatherCode: WeatherCode }[]
+  >([]);
+  const { weatherData } = useWeather();
+  const [selectedDay, setSelectedDay] = useState<string>(new Date().toISOString().slice(0, 10));
+  const roundedNow = getRoundedHourDate(new Date());
+
+  useEffect(() => {
+    if (!weatherData) return;
+
+    const dailyFiltered = weatherData.hourly.time
+      .map((time: string, i: number) => ({
+        time,
+        temperature: weatherData.hourly.temperature_2m[i],
+        weatherCode: weatherData.hourly.weathercode[i],
+      }))
+      .filter((entry: any) => entry.time.startsWith(selectedDay) && entry.time >= roundedNow);
+
+    setDayHourlyData(dailyFiltered);
+  }, [weatherData, selectedDay]);
+
   return (
     <BaseWrapper>
       <div className="p-300 flex flex-col h-[693px]">
         <div className="flex justify-between items-center mb-200">
           <div className="preset-5">Hourly forecast</div>
-          <DaysDropDown />
+          <DaysDropDown selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
         </div>
         <div className="flex flex-col gap-200 overflow-y-auto flex-1">
-          <HourlyForecastCard timeOfDay="2025-09-24T18:00" weatherCode={1} temp={22} />
-          <HourlyForecastCard timeOfDay="2025-09-24T21:00" weatherCode={3} temp={20} />
-          <HourlyForecastCard timeOfDay="2025-09-25T00:00" weatherCode={45} temp={18} />
-          <HourlyForecastCard timeOfDay="2025-09-25T03:00" weatherCode={48} temp={17} />
-          <HourlyForecastCard timeOfDay="2025-09-25T06:00" weatherCode={51} temp={16} />
-          <HourlyForecastCard timeOfDay="2025-09-25T09:00" weatherCode={53} temp={18} />
-          <HourlyForecastCard timeOfDay="2025-09-25T12:00" weatherCode={55} temp={21} />
-          <HourlyForecastCard timeOfDay="2025-09-25T15:00" weatherCode={61} temp={23} />
-          <HourlyForecastCard timeOfDay="2025-09-25T18:00" weatherCode={63} temp={22} />
-          <HourlyForecastCard timeOfDay="2025-09-25T21:00" weatherCode={65} temp={20} />
-          <HourlyForecastCard timeOfDay="2025-09-26T00:00" weatherCode={66} temp={19} />
-          <HourlyForecastCard timeOfDay="2025-09-26T03:00" weatherCode={67} temp={18} />
-          <HourlyForecastCard timeOfDay="2025-09-26T06:00" weatherCode={71} temp={17} />
-          <HourlyForecastCard timeOfDay="2025-09-26T09:00" weatherCode={73} temp={19} />
-          <HourlyForecastCard timeOfDay="2025-09-26T12:00" weatherCode={75} temp={22} />
-          <HourlyForecastCard timeOfDay="2025-09-26T15:00" weatherCode={77} temp={24} />
-          <HourlyForecastCard timeOfDay="2025-09-26T18:00" weatherCode={80} temp={23} />
-          <HourlyForecastCard timeOfDay="2025-09-26T21:00" weatherCode={81} temp={21} />
-          <HourlyForecastCard timeOfDay="2025-09-27T00:00" weatherCode={82} temp={20} />
-          <HourlyForecastCard timeOfDay="2025-09-27T03:00" weatherCode={85} temp={19} />
-          <HourlyForecastCard timeOfDay="2025-09-27T06:00" weatherCode={86} temp={18} />
+          {dayHourlyData.map((hour) => (
+            <div key={hour.time}>
+              <HourlyForecastCard
+                timeOfDay={hour.time}
+                weatherCode={hour.weatherCode}
+                temp={hour.temperature}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </BaseWrapper>

@@ -14,17 +14,12 @@ const meta = {
     },
   },
   tags: ['autodocs'],
-  argTypes: {
-    onChange: { action: 'changed' },
-  },
+  argTypes: {},
 } satisfies Meta<typeof SearchContainer>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const DefaultSearchContainer: Story = {
-  args: {
-    value: '',
-    onChange: () => {},
-  },
+  args: {},
 };

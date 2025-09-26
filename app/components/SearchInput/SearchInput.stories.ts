@@ -14,18 +14,12 @@ const meta = {
     },
   },
   tags: ['autodocs'],
-  argTypes: {
-    onChange: { action: 'changed' },
-  },
+  argTypes: {},
 } satisfies Meta<typeof SearchInput>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const DefaultSearchInput: Story = {
-  args: {
-    value: '',
-    placeholder: 'Search for a place...',
-    onChange: () => {},
-  },
+  args: {},
 };

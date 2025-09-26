@@ -3,6 +3,8 @@ import './globals.css';
 
 import { Bricolage_Grotesque, DM_Sans } from 'next/font/google';
 import { Header } from './components/Header/Header';
+import { FiltersProvider } from './context/FilterContext';
+import { WeatherProvider } from './context/WeatherContext';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -27,10 +29,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`antialiased ${dmSans.variable} ${bricolage.variable} pt-200 pb-600 px-200 md:pt-300 md:pb-1000 md:px-300 lg:pt-600 lg:pb-1000 lg:px-1400`}
+        className={`antialiased ${dmSans.variable} ${bricolage.variable} pt-200 pb-600 px-200 md:pt-300 md:pb-1000 md:px-300 lg:pt-600 lg:pb-1000 xl:px-1400`}
       >
-        <Header />
-        <div>{children}</div>
+        <FiltersProvider>
+          <WeatherProvider>
+            <Header />
+            <div>{children}</div>
+          </WeatherProvider>
+        </FiltersProvider>
       </body>
     </html>
   );

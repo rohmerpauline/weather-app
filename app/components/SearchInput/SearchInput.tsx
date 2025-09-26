@@ -1,45 +1,72 @@
-import { City } from '@/app/page';
+'use client';
+import { useFilters } from '@/app/context/FilterContext';
+import { useWeather } from '@/app/context/WeatherContext';
 import _ from 'lodash';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-export interface SearchInputProps {
-  /** Current input value */
-  value: string;
-  /** Change handler */
-  onChange: (e: string) => void;
-  /** Placeholder text */
-  placeholder?: string;
+export interface City {
+  id: number;
+  name: string;
+  country: string;
+  state: string;
+  coord: {
+    lon: number;
+    lat: number;
+  };
 }
 
-export const SearchInput = ({
-  value,
-  onChange,
-  placeholder = 'Search for a place...',
-}: SearchInputProps) => {
+export interface SearchInputProps {
+  searchQuery: string;
+  setSearchQuery: Dispatch<SetStateAction<string>>;
+  setSelectedCity: any;
+}
+
+export const SearchInput = ({ searchQuery, setSearchQuery, setSelectedCity }: SearchInputProps) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [cities, setCities] = useState<City[]>([]);
   const [filteredCities, setFilteredCities] = useState<City[]>([]);
+  const { filters, updateFilters } = useFilters();
+  const { fetchWeatherData } = useWeather();
 
   useEffect(() => {
-    fetch('/data/city.list.min.json')
-      .then((res) => res.json())
-      .then((data: City[]) => {
-        // Remove duplicates based on name + country
-        const uniqueCities = _.uniqBy(data, (city: City) => `${city.name}-${city.country}`);
-        setCities(uniqueCities);
-      })
-      .catch((error) => {
+    const fetchCities = async () => {
+      try {
+        const res = await fetch('/data/city.list.min.json');
+        const data: City[] = await res.json();
+        const uniqueCities = _.uniqBy(data, (c) => `${c.name}-${c.country}`);
+        const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
+
+        const citiesWithCountryNames = uniqueCities.map((city) => ({
+          ...city,
+          country:
+            city.country.length === 2
+              ? (regionNames.of(city.country) ?? city.country)
+              : city.country,
+        }));
+        setCities(citiesWithCountryNames);
+
+        const defaultCity = citiesWithCountryNames.find(
+          (city) => city.name === 'Brussels' && city.country === 'Belgium',
+        );
+        if (defaultCity) {
+          updateFilters('city', defaultCity);
+          fetchWeatherData({ ...filters, city: defaultCity });
+        }
+      } catch (error) {
         console.error('Error fetching city data:', error);
-      });
+      }
+    };
+
+    fetchCities();
   }, []);
 
   useEffect(() => {
-    if (!value) {
+    if (!searchQuery) {
       setFilteredCities([]);
       return;
     }
 
-    const inputLower = value.toLowerCase().trim();
+    const inputLower = searchQuery.toLowerCase().trim();
 
     const filtered = cities
       .filter((city) => {
@@ -50,16 +77,17 @@ export const SearchInput = ({
       .slice(0, 20);
 
     setFilteredCities(filtered);
-  }, [value, cities]);
+  }, [searchQuery, cities]);
 
   const handleSelectCity = (city: City) => {
     const fullName = `${city.name}, ${city.country}`;
-    onChange(fullName);
+    setSearchQuery(fullName);
+    setSelectedCity(city);
     setShowDropdown(false);
   };
 
   const handleInputChange = (text: string) => {
-    onChange(text);
+    setSearchQuery(text);
     if (text && text !== '') {
       setShowDropdown(true);
     } else {
@@ -77,10 +105,10 @@ export const SearchInput = ({
       <input
         type="text"
         className="preset-5 w-full h-[56px] bg-neutral-800 rounded-12 p-200 text-neutral-0 placeholder:text-neutral-200 px-600 py-200 hover:bg-neutral-700"
-        placeholder={placeholder}
-        value={value}
+        placeholder="Search for a place..."
+        value={searchQuery}
         onChange={(e) => handleInputChange(e.target.value)}
-        onFocus={() => value && setShowDropdown(true)}
+        onFocus={() => searchQuery && setShowDropdown(true)}
       />
       {showDropdown && filteredCities.length > 0 && (
         <div className="dropdown-content w-full max-h-[210px] overflow-y-auto">
