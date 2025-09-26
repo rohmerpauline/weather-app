@@ -34,3 +34,7 @@ export const RainyPM: Story = {
     temp: 25,
   },
 };
+
+export const LoadingState: Story = {
+  args: {},
+};

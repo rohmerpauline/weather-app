@@ -83,3 +83,7 @@ export const PartlyCloudyWeather: Story = {
     maxTemp: 12,
   },
 };
+
+export const LoadingState: Story = {
+  args: {},
+};
