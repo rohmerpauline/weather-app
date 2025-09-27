@@ -21,5 +21,17 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    selectedDay: 'Monday',
+    setSelectedDay: () => {},
+    isLoading: false,
+  },
+};
+
+export const LoadingState: Story = {
+  args: {
+    selectedDay: 'Monday',
+    setSelectedDay: () => {},
+    isLoading: true,
+  },
 };

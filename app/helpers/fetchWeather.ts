@@ -14,8 +14,7 @@ export const fetchWeather = async (filters: Filters) => {
     if (!res.ok) throw new Error('Failed to fetch weather data');
     const data = await res.json();
     return data;
-  } catch (error) {
-    console.error('Error fetching weather:', error);
+  } catch {
     return null;
   }
 };

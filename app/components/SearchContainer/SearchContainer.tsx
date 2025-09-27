@@ -5,9 +5,7 @@ import { useState } from 'react';
 import { Button } from '../Button/Button';
 import { City, SearchInput } from '../SearchInput/SearchInput';
 
-export interface SearchContainerProps {}
-
-export const SearchContainer = ({}: SearchContainerProps) => {
+export const SearchContainer = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedCity, setSelectedCity] = useState<undefined | City>(undefined);
   const { filters, updateFilters } = useFilters();

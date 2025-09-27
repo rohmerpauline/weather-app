@@ -9,7 +9,8 @@ const meta = {
     layout: 'padded',
     docs: {
       description: {
-        component: 'A container component that includes a SearchInput and a Button.',
+        component:
+          'A container component that includes a SearchInput and a Button.',
       },
     },
   },

@@ -9,7 +9,8 @@ const meta = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Displays a weather metric with a label and its corresponding value.',
+        component:
+          'Displays a weather metric with a label and its corresponding value.',
       },
     },
   },

@@ -6,7 +6,9 @@ import { WeatherInfoContainer } from './components/WeatherInfoContainer/WeatherI
 export default function Home() {
   return (
     <div>
-      <h1 className="preset-2 text-center p-800">How's the sky looking today?</h1>
+      <h1 className="preset-2 text-center p-800">
+        How's the sky looking today?
+      </h1>
       <div className="flex flex-col gap-400 lg:gap-600">
         <SearchContainer />
         <div className="grid gap-400 lg:grid-cols-[2fr_1fr]">

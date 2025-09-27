@@ -3,11 +3,9 @@ export interface BaseWrapperProps {
   children: React.ReactNode;
 }
 
-export const BaseWrapper = ({
-  children
-}: BaseWrapperProps) => {
+export const BaseWrapper = ({ children }: BaseWrapperProps) => {
   return (
-    <div className='bg-neutral-800 border-neutral-600 rounded-12 text-neutral-0'>
+    <div className="bg-neutral-800 border-neutral-600 rounded-12 text-neutral-0">
       {children}
     </div>
   );

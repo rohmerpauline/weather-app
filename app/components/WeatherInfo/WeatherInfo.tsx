@@ -1,6 +1,7 @@
 'use client';
 import { useFilters } from '@/app/context/FilterContext';
 import { useWeather } from '@/app/context/WeatherContext';
+import Image from 'next/image';
 import { CurrentWeather } from '../WeatherInfoContainer/WeatherInfoContainer';
 
 export interface WeatherInfoProps {
@@ -27,7 +28,13 @@ export const WeatherInfo = ({ currentWeather }: WeatherInfoProps) => {
     >
       {isLoading ? (
         <div className="flex items-center justify-center w-full h-[286px]">
-          <img src="/images/icon-loading.svg" alt="Loading" className="w-12 h-12 animate-spin" />
+          <Image
+            src="/images/icon-loading.svg"
+            alt="Loading"
+            className="animate-spin"
+            width={60}
+            height={60}
+          />
         </div>
       ) : (
         <>
@@ -38,8 +45,15 @@ export const WeatherInfo = ({ currentWeather }: WeatherInfoProps) => {
             <div className="preset-6">{formattedDate}</div>
           </div>
           <div className="flex items-center">
-            <div className="w-[120px] h-[120px] flex items-center justify-center">
-              <img src={currentWeather.iconPath} alt="" />
+            <div className="items-center justify-center">
+              {currentWeather.iconPath && (
+                <Image
+                  src={currentWeather.iconPath}
+                  alt="Forecast icon"
+                  width={120}
+                  height={120}
+                />
+              )}
             </div>
             <div className="preset-1">{currentWeather.temperature}°</div>
           </div>

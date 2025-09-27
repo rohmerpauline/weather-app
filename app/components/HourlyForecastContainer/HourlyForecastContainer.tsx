@@ -5,8 +5,6 @@ import { BaseWrapper } from '../BaseWrapper/BaseWrapper';
 import { DaysDropDown } from '../DaysDropDown/DaysDropDown';
 import { HourlyForecastCard } from '../HourlyForecastCard/HourlyForecastCard';
 
-export interface HourlyForecastContainerProps {}
-
 export type WeatherCode =
   | 0
   | 1
@@ -37,12 +35,14 @@ export type WeatherCode =
   | 96
   | 99;
 
-export const HourlyForecastContainer = ({}: HourlyForecastContainerProps) => {
+export const HourlyForecastContainer = () => {
   const [dayHourlyData, setDayHourlyData] = useState<
     { time: string; temperature: number; weatherCode: WeatherCode }[]
   >([]);
   const { weatherData, isLoading } = useWeather();
-  const [selectedDay, setSelectedDay] = useState<string>(new Date().toISOString().slice(0, 10));
+  const [selectedDay, setSelectedDay] = useState<string>(
+    new Date().toISOString().slice(0, 10),
+  );
 
   useEffect(() => {
     if (!weatherData) return;
@@ -51,15 +51,15 @@ export const HourlyForecastContainer = ({}: HourlyForecastContainerProps) => {
       .map((time: string, i: number) => ({
         time,
         temperature: weatherData.hourly.temperature_2m[i],
-        weatherCode: weatherData.hourly.weathercode[i],
+        weatherCode: weatherData.hourly.weathercode[i] as WeatherCode,
       }))
-      .filter((entry: any) => entry.time.startsWith(selectedDay));
+      .filter((entry) => entry.time.startsWith(selectedDay));
 
     setDayHourlyData(dailyFiltered);
   }, [weatherData, selectedDay]);
 
   const displayData = isLoading
-    ? Array.from({ length: 7 }).map((_, i) => ({
+    ? Array.from({ length: 7 }).map((_) => ({
         time: undefined,
         weatherCode: undefined,
         temperature: undefined,
@@ -77,16 +77,18 @@ export const HourlyForecastContainer = ({}: HourlyForecastContainerProps) => {
             isLoading={isLoading}
           />
         </div>
-        <div className="flex flex-col gap-200 overflow-y-auto flex-1">
-          {displayData.map((hour, index) => (
-            <React.Fragment key={hour.time ?? index}>
-              <HourlyForecastCard
-                timeOfDay={hour.time}
-                weatherCode={hour.weatherCode}
-                temp={hour.temperature}
-              />
-            </React.Fragment>
-          ))}
+        <div className="overflow-y-auto">
+          <div className="flex flex-col gap-200 flex-1">
+            {displayData.map((hour, index) => (
+              <React.Fragment key={hour.time ?? index}>
+                <HourlyForecastCard
+                  timeOfDay={hour.time}
+                  weatherCode={hour.weatherCode}
+                  temp={hour.temperature}
+                />
+              </React.Fragment>
+            ))}
+          </div>
         </div>
       </div>
     </BaseWrapper>

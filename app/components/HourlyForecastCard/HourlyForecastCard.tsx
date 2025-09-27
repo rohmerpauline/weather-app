@@ -1,4 +1,5 @@
 import { getWeatherIconPath } from '@/app/helpers/weather';
+import Image from 'next/image';
 import { WeatherCode } from '../HourlyForecastContainer/HourlyForecastContainer';
 
 export interface HourlyForecastCardProps {
@@ -10,8 +11,13 @@ export interface HourlyForecastCardProps {
   temp?: number;
 }
 
-export const HourlyForecastCard = ({ timeOfDay, weatherCode, temp }: HourlyForecastCardProps) => {
-  const weatherIconPath = weatherCode !== undefined ? getWeatherIconPath(weatherCode) : undefined;
+export const HourlyForecastCard = ({
+  timeOfDay,
+  weatherCode,
+  temp,
+}: HourlyForecastCardProps) => {
+  const weatherIconPath =
+    weatherCode !== undefined ? getWeatherIconPath(weatherCode) : undefined;
 
   const hourValue = timeOfDay
     ? (() => {
@@ -23,8 +29,15 @@ export const HourlyForecastCard = ({ timeOfDay, weatherCode, temp }: HourlyForec
     : '';
 
   return (
-    <div className="bg-neutral-700 border border-neutral-600 box-border grid grid-cols-[max-content_auto_max-content] w-full pl-150 pr-200 h-[60px] items-center gap-100 rounded-8">
-      {weatherIconPath && <img src={weatherIconPath} alt="Weather icon" width="40" height="40" />}
+    <div className="h-[60px] bg-neutral-700 border border-neutral-600 box-border grid grid-cols-[max-content_auto_max-content] w-full pl-150 pr-200 items-center gap-100 rounded-8">
+      {weatherIconPath && (
+        <Image
+          src={weatherIconPath}
+          alt="Weather icon"
+          width="40"
+          height="40"
+        />
+      )}
       {hourValue && <div className="preset-5">{hourValue}</div>}
       {temp && <div className="preset-7">{temp}°</div>}
     </div>

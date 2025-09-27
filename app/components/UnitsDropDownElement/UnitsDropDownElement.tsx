@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 export interface UnitOption {
   label: string;
   value: string;
@@ -22,8 +20,6 @@ export const UnitsDropDownElement = ({
   selectedValue,
   onSelect,
 }: UnitsDropDownElementProps) => {
-  const [showDropdown, setShowDropdown] = useState(false);
-
   return (
     <div>
       <div className="preset-8 text-neutral-300 mb-100">{title}</div>
@@ -36,7 +32,6 @@ export const UnitsDropDownElement = ({
             key={option.value}
             onClick={() => {
               onSelect(option.value);
-              setShowDropdown(false);
             }}
           >
             {option.label}

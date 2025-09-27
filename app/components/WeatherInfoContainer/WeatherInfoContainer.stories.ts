@@ -9,7 +9,8 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'Part of the app that displays the current weather and associated details.',
+        component:
+          'Part of the app that displays the current weather and associated details.',
       },
     },
   },

@@ -7,10 +7,12 @@ export const DAYS_OF_THE_WEEK = [
   'Saturday',
   'Sunday',
 ];
-export const TODAY_WEEK_DAY = new Date().toLocaleDateString('en-US', { weekday: 'long' });
-export const NEXT_DAYS = DAYS_OF_THE_WEEK.slice(DAYS_OF_THE_WEEK.indexOf(TODAY_WEEK_DAY)).concat(
-  DAYS_OF_THE_WEEK.slice(0, DAYS_OF_THE_WEEK.indexOf(TODAY_WEEK_DAY)),
-);
+export const TODAY_WEEK_DAY = new Date().toLocaleDateString('en-US', {
+  weekday: 'long',
+});
+export const NEXT_DAYS = DAYS_OF_THE_WEEK.slice(
+  DAYS_OF_THE_WEEK.indexOf(TODAY_WEEK_DAY),
+).concat(DAYS_OF_THE_WEEK.slice(0, DAYS_OF_THE_WEEK.indexOf(TODAY_WEEK_DAY)));
 
 export const TEMPERATURE_OPTIONS = [
   { label: 'Celsius (°C)', value: 'celsius' },

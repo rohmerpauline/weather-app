@@ -6,8 +6,6 @@ import { useEffect, useState } from 'react';
 import { WeatherDetailsContainer } from '../WeatherDetailsContainer/WeatherDetailsContainer';
 import { WeatherInfo } from '../WeatherInfo/WeatherInfo';
 
-export interface WeatherInfoContainerProps {}
-
 export interface CurrentWeather {
   temperature: null | number;
   feelsLike: null | number;
@@ -17,7 +15,7 @@ export interface CurrentWeather {
   iconPath: undefined | string;
 }
 
-export const WeatherInfoContainer = ({}: WeatherInfoContainerProps) => {
+export const WeatherInfoContainer = () => {
   const [currentWeather, setCurrentWeather] = useState<CurrentWeather>({
     temperature: null,
     feelsLike: null,
@@ -32,7 +30,7 @@ export const WeatherInfoContainer = ({}: WeatherInfoContainerProps) => {
     if (!weatherData) return;
 
     const roundedNow = getRoundedHourDate(new Date());
-    const roundedNowIndex = weatherData?.hourly?.time?.findIndex(
+    const roundedNowIndex = weatherData.hourly?.time?.findIndex(
       (time: string) => time === roundedNow,
     );
 
@@ -43,7 +41,9 @@ export const WeatherInfoContainer = ({}: WeatherInfoContainerProps) => {
         windSpeed: weatherData.hourly.windspeed_10m[roundedNowIndex],
         precipitation: weatherData.hourly.precipitation[roundedNowIndex],
         humidity: weatherData.hourly.relativehumidity_2m[roundedNowIndex],
-        iconPath: getWeatherIconPath(weatherData.hourly.weathercode[roundedNowIndex]),
+        iconPath: getWeatherIconPath(
+          weatherData.hourly.weathercode[roundedNowIndex],
+        ),
       });
     }
   }, [weatherData]);
