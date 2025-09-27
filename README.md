@@ -4,6 +4,12 @@ This is my Weather App, built to practice creating a responsive and interactive 
 
 Note: This project was completed as a Frontend Mentor challenge, providing a clear design and requirements to follow.
 
+[Visit the app](https://weather-app-seven-mu-33.vercel.app/)
+
+![Screenshot of my app](/public/images/screenshot.png)
+
+### Features
+
 ---
 
 ### Features
