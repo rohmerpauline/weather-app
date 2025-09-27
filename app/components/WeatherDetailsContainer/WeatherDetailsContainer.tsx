@@ -8,7 +8,9 @@ export interface WeatherDetailsProps {
   currentWeather: CurrentWeather;
 }
 
-export const WeatherDetailsContainer = ({ currentWeather }: WeatherDetailsProps) => {
+export const WeatherDetailsContainer = ({
+  currentWeather,
+}: WeatherDetailsProps) => {
   const { filters } = useFilters();
   const { isLoading } = useWeather();
 
@@ -16,15 +18,25 @@ export const WeatherDetailsContainer = ({ currentWeather }: WeatherDetailsProps)
 
   return (
     <div className="grid grid-cols-2 gap-200 md:grid-cols-4">
-      <WeatherDetailsCard label="Feels like" value={displayValue(`${currentWeather.feelsLike}°`)} />
-      <WeatherDetailsCard label="Humidity" value={displayValue(`${currentWeather.humidity}%`)} />
+      <WeatherDetailsCard
+        label="Feels like"
+        value={displayValue(`${currentWeather.feelsLike}°`)}
+      />
+      <WeatherDetailsCard
+        label="Humidity"
+        value={displayValue(`${currentWeather.humidity}%`)}
+      />
       <WeatherDetailsCard
         label="Wind"
-        value={displayValue(`${currentWeather.windSpeed} ${filters.windSpeedUnit}`)}
+        value={displayValue(
+          `${currentWeather.windSpeed} ${filters.windSpeedUnit}`,
+        )}
       />
       <WeatherDetailsCard
         label="Precipitation"
-        value={displayValue(`${currentWeather.precipitation} ${filters.precipitationUnit}`)}
+        value={displayValue(
+          `${currentWeather.precipitation} ${filters.precipitationUnit}`,
+        )}
       />
     </div>
   );

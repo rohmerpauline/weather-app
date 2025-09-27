@@ -5,8 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { WeatherCode } from '../HourlyForecastContainer/HourlyForecastContainer';
 import { WeatherCard } from '../WeatherCard/WeatherCard';
 
-export interface DailyForecastContainerProps {}
-
 interface DailyWeatherData {
   date: string; // YYYY-MM-DD
   temperatures: number[];
@@ -41,8 +39,10 @@ const aggregateForecastHourlyByDay = (hourly: {
   return Object.values(dailyMap).sort((a, b) => (a.date < b.date ? -1 : 1));
 };
 
-export const DailyForecastContainer = ({}: DailyForecastContainerProps) => {
-  const [dailyForecast, setDailyForecast] = useState<DailyForecastSummary[] | null>(null);
+export const DailyForecastContainer = () => {
+  const [dailyForecast, setDailyForecast] = useState<
+    DailyForecastSummary[] | null
+  >(null);
   const { weatherData, isLoading } = useWeather();
 
   useEffect(() => {

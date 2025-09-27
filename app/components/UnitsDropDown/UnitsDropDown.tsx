@@ -10,9 +10,7 @@ import { useState } from 'react';
 import { DropDown } from '../DropDown/DropDown';
 import { UnitsDropDownElement } from '../UnitsDropDownElement/UnitsDropDownElement';
 
-export interface UnitsDropDownProps {}
-
-export const UnitsDropDown = ({}: UnitsDropDownProps) => {
+export const UnitsDropDown = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const { filters, updateFilters } = useFilters();
   const { fetchWeatherData } = useWeather();

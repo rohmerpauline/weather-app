@@ -7,7 +7,10 @@ export interface WeatherDetailsCardProps {
   value: string | undefined;
 }
 
-export const WeatherDetailsCard = ({ label, value }: WeatherDetailsCardProps) => {
+export const WeatherDetailsCard = ({
+  label,
+  value,
+}: WeatherDetailsCardProps) => {
   return (
     <BaseWrapper>
       <div className="flex flex-col gap-300 w-full p-250">

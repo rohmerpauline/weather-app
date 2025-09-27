@@ -1,4 +1,5 @@
 import { getWeatherIconPath } from '@/app/helpers/weather';
+import Image from 'next/image';
 import { BaseWrapper } from '../BaseWrapper/BaseWrapper';
 import { WeatherCode } from '../HourlyForecastContainer/HourlyForecastContainer';
 
@@ -13,15 +14,21 @@ export interface WeatherCardProps {
   maxTemp?: number;
 }
 
-export const WeatherCard = ({ day, weatherCode, minTemp, maxTemp }: WeatherCardProps) => {
-  const weatherIconPath = weatherCode !== undefined ? getWeatherIconPath(weatherCode) : undefined;
+export const WeatherCard = ({
+  day,
+  weatherCode,
+  minTemp,
+  maxTemp,
+}: WeatherCardProps) => {
+  const weatherIconPath =
+    weatherCode !== undefined ? getWeatherIconPath(weatherCode) : undefined;
 
   return (
     <BaseWrapper>
       <div className="flex flex-col gap-200 px-125 py-200 w-auto min-h-[165px]">
         {day && <div className="preset-6 text-center">{day}</div>}
         {weatherIconPath && (
-          <img
+          <Image
             src={weatherIconPath}
             className="mx-auto"
             alt="Weather icon"

@@ -2,6 +2,7 @@
 import { useFilters } from '@/app/context/FilterContext';
 import { useWeather } from '@/app/context/WeatherContext';
 import _ from 'lodash';
+import Image from 'next/image';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 export interface City {
@@ -18,10 +19,14 @@ export interface City {
 export interface SearchInputProps {
   searchQuery: string;
   setSearchQuery: Dispatch<SetStateAction<string>>;
-  setSelectedCity: any;
+  setSelectedCity: Dispatch<SetStateAction<City | undefined>>;
 }
 
-export const SearchInput = ({ searchQuery, setSearchQuery, setSelectedCity }: SearchInputProps) => {
+export const SearchInput = ({
+  searchQuery,
+  setSearchQuery,
+  setSelectedCity,
+}: SearchInputProps) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [cities, setCities] = useState<City[]>([]);
   const [filteredCities, setFilteredCities] = useState<City[]>([]);
@@ -52,13 +57,13 @@ export const SearchInput = ({ searchQuery, setSearchQuery, setSelectedCity }: Se
           updateFilters('city', defaultCity);
           fetchWeatherData({ ...filters, city: defaultCity });
         }
-      } catch (error) {
-        console.error('Error fetching city data:', error);
+      } catch {
+        return;
       }
     };
 
     fetchCities();
-  }, []);
+  }, []); // eslint-disable-line
 
   useEffect(() => {
     if (!searchQuery) {
@@ -72,7 +77,9 @@ export const SearchInput = ({ searchQuery, setSearchQuery, setSelectedCity }: Se
       .filter((city) => {
         const fullName = `${city.name}, ${city.country}`.toLowerCase();
         const nameOnly = city.name.toLowerCase();
-        return fullName.startsWith(inputLower) || nameOnly.startsWith(inputLower);
+        return (
+          fullName.startsWith(inputLower) || nameOnly.startsWith(inputLower)
+        );
       })
       .slice(0, 20);
 
@@ -97,10 +104,12 @@ export const SearchInput = ({ searchQuery, setSearchQuery, setSelectedCity }: Se
 
   return (
     <div className="relative w-full">
-      <img
+      <Image
         src="/images/icon-search.svg"
         alt="Search Icon"
         className="absolute left-3 top-1/2 -translate-y-1/2"
+        width={20}
+        height={20}
       />
       <input
         type="text"

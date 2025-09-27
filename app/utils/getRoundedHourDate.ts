@@ -1,5 +1,6 @@
 export const getRoundedHourDate = (date: Date) => {
-  const roundedHour = date.getMinutes() >= 30 ? date.getHours() + 1 : date.getHours();
+  const roundedHour =
+    date.getMinutes() >= 30 ? date.getHours() + 1 : date.getHours();
 
   const d = new Date(date);
   d.setHours(roundedHour, 0, 0, 0);

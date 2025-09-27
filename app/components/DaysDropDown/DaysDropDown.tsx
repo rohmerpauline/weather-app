@@ -1,5 +1,9 @@
 'use client';
-import { DAYS_OF_THE_WEEK, NEXT_DAYS, TODAY_WEEK_DAY } from '@/app/constants/constants';
+import {
+  DAYS_OF_THE_WEEK,
+  NEXT_DAYS,
+  TODAY_WEEK_DAY,
+} from '@/app/constants/constants';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { DropDown } from '../DropDown/DropDown';
 
@@ -9,7 +13,11 @@ export interface DaysDropDownProps {
   isLoading: boolean;
 }
 
-export const DaysDropDown = ({ selectedDay, setSelectedDay, isLoading }: DaysDropDownProps) => {
+export const DaysDropDown = ({
+  selectedDay,
+  setSelectedDay,
+  isLoading,
+}: DaysDropDownProps) => {
   const today = new Date();
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -32,7 +40,11 @@ export const DaysDropDown = ({ selectedDay, setSelectedDay, isLoading }: DaysDro
     <div className="relative inline-block">
       <DropDown
         label={
-          isLoading ? '-' : new Date(selectedDay).toLocaleDateString('en-US', { weekday: 'long' })
+          isLoading
+            ? '-'
+            : new Date(selectedDay).toLocaleDateString('en-US', {
+                weekday: 'long',
+              })
         }
         onClick={() => setShowDropdown(!showDropdown)}
         height="small"

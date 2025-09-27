@@ -9,7 +9,8 @@ const meta = {
     layout: 'padded',
     docs: {
       description: {
-        component: 'A reusable dropdown trigger with label, optional icon, and chevron',
+        component:
+          'A reusable dropdown trigger with label, optional icon, and chevron',
       },
     },
   },

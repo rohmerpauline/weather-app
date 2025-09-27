@@ -9,7 +9,8 @@ const meta = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A search input that filters and displays a dropdown of cities as you type.',
+        component:
+          'A search input that filters and displays a dropdown of cities as you type.',
       },
     },
   },
@@ -21,5 +22,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const DefaultSearchInput: Story = {
-  args: {},
+  args: {
+    searchQuery: '',
+    setSearchQuery: () => {},
+    setSelectedCity: () => {},
+  },
 };

@@ -9,7 +9,8 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'Styled banner summarizing the the daily forecast for the selected city.',
+        component:
+          'Styled banner summarizing the the daily forecast for the selected city.',
       },
     },
   },
